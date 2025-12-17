@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Wellness Center · Sitios web gimnasio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Tipografía moderna -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wcDark: "#0f172a",
+                        wcLight: "#f9fafb",
+                        wcAccent: "#14b8a6",
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "system-ui", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Estilos propios -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="font-sans bg-wcLight text-slate-900 antialiased">
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="fixed top-4 right-4 space-y-2 z-50">
+      {% for category, message in messages %}
+        <div class="px-4 py-2 rounded-md text-sm shadow-sm
+            {% if category == 'success' %} bg-emerald-100 text-emerald-900
+            {% elif category == 'error' %} bg-red-100 text-red-900
+            {% else %} bg-slate-100 text-slate-900 {% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<header class="border-b border-slate-200 bg-white/90 backdrop-blur">
+    <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center gap-6">
+        <div class="text-sm font-semibold tracking-[0.25em] uppercase text-slate-500">
+            Wellness Center
+        </div>
+
+        <div class="flex items-center gap-3">
+            <a href="#login"
+               class="text-xs sm:text-sm text-slate-700 border border-slate-200 px-4 py-2 rounded-full hover:bg-slate-900 hover:text-white transition">
+                Iniciar sesión
+            </a>
+            <a href="#registro"
+               class="text-xs sm:text-sm bg-wcAccent text-white px-4 py-2 rounded-full hover:bg-emerald-500 transition">
+                Empezar
+            </a>
+        </div>
+
+        <div class="ml-auto hidden sm:block text-[11px] tracking-[0.3em] uppercase text-slate-400">
+            Sitios web para gimnasios
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="max-w-6xl mx-auto px-6 py-16 lg:py-24 grid gap-12 lg:grid-cols-2 items-center">
+        <div class="space-y-8">
+            <p class="text-xs tracking-[0.3em] uppercase text-slate-400">
+                Digital · Minimal · Fitness
+            </p>
+
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight text-slate-900">
+                Sitios web gimnasio:<br>
+                <span class="inline-block mt-1">
+                    Líderes en diseño web
+                    <span class="text-wcAccent">Wellness Center</span>.
+                </span>
+            </h1>
+
+            <p class="text-sm sm:text-base text-slate-500 max-w-md">
+                Creamos experiencias digitales limpias y enfocadas en resultados.
+                Una landing minimalista para un gimnasio moderno,
+                donde cada detalle inspira movimiento y bienestar.
+            </p>
+
+            <div class="flex flex-wrap gap-3">
+                <a href="#registro"
+                   class="inline-flex items-center gap-2 bg-wcAccent text-white px-6 py-3 rounded-full text-sm hover:bg-emerald-500 transition">
+                    Empezar ahora
+                    <span class="text-xs">→</span>
+                </a>
+                <a href="#planes"
+                   class="inline-flex items-center gap-2 text-sm text-slate-700 hover:text-slate-900">
+                    Ver planes de entrenamiento
+                </a>
+            </div>
+
+            {% if usuario %}
+                <p class="text-xs text-slate-500">
+                    Sesión iniciada como <span class="font-medium">{{ usuario.nombre }}</span>.
+                    <form action="{{ url_for('logout') }}" method="post" class="inline">
+                        <button class="underline hover:no-underline">Cerrar sesión</button>
+                    </form>
+                </p>
+            {% endif %}
+        </div>
+
+        <div class="relative">
+            <div class="aspect-[4/3] rounded-3xl overflow-hidden bg-wcDark shadow-xl">
+                <img
+                    src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80"
+                    alt="Personas entrenando en un gimnasio moderno"
+                    class="w-full h-full object-cover opacity-90">
+            </div>
+            <div class="absolute -bottom-6 -left-6 w-32 h-32 border border-slate-200 rounded-3xl hidden md:block"></div>
+        </div>
+    </section>
+
+    <section id="planes" class="max-w-6xl mx-auto px-6 pb-16 lg:pb-24">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+            <div>
+                <h2 class="text-xl sm:text-2xl font-semibold text-slate-900">
+                    Planes pensados para tu ritmo
+                </h2>
+                <p class="text-sm text-slate-500 max-w-md">
+                    Elige un plan y personaliza tu objetivo. Menos ruido, más resultados.
+                </p>
+            </div>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-3">
+            {% for plan in planes %}
+                <article class="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition">
+                    <header class="space-y-2 mb-4">
+                        <h3 class="text-base font-semibold text-slate-900">{{ plan.nombre }}</h3>
+                        <p class="text-sm text-slate-500">{{ plan.descripcion }}</p>
+                    </header>
+                    <div class="flex items-baseline justify-between">
+                        <p class="text-2xl font-semibold text-slate-900">
+                            {{ "%.0f"|format(plan.precio) }}€
+                            <span class="text-xs font-normal text-slate-400">/mes</span>
+                        </p>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="border-t border-slate-200 bg-white">
+        <div class="max-w-6xl mx-auto px-6 py-16 lg:py-20 grid gap-12 lg:grid-cols-[minmax(0,2fr)_minmax(0,1.3fr)]">
+            <div id="registro" class="space-y-6">
+                <h2 class="text-xl sm:text-2xl font-semibold text-slate-900">
+                    Empieza hoy con Wellness Center
+                </h2>
+                <p class="text-sm text-slate-500 max-w-md">
+                    Completa un registro mínimo, elige tu plan y define tu objetivo.
+                    El resto lo hacemos juntos.
+                </p>
+
+                <form action="{{ url_for('registrar') }}" method="post" class="space-y-4 max-w-md">
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div>
+                            <label class="label">Nombre completo</label>
+                            <input type="text" name="nombre" required class="input">
+                        </div>
+                        <div>
+                            <label class="label">Email</label>
+                            <input type="email" name="email" required class="input">
+                        </div>
+                    </div>
+
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div>
+                            <label class="label">Contraseña</label>
+                            <input type="password" name="password" required class="input">
+                        </div>
+                        <div>
+                            <label class="label">Plan de entrenamiento</label>
+                            <select name="plan_id" required class="input">
+                                <option value="">Selecciona un plan</option>
+                                {% for plan in planes %}
+                                    <option value="{{ plan.id }}">{{ plan.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="label">Tu objetivo principal (opcional)</label>
+                        <input type="text" name="objetivo" placeholder="Ej. ganar fuerza, bajar de peso..."
+                               class="input">
+                    </div>
+
+                    <button type="submit"
+                            class="inline-flex items-center justify-center w-full sm:w-auto bg-wcAccent text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-emerald-500 transition">
+                        Crear cuenta y empezar
+                    </button>
+                </form>
+            </div>
+
+            <div id="login" class="space-y-4">
+                <h3 class="text-base font-semibold text-slate-900">
+                    ¿Ya entrenas con nosotros?
+                </h3>
+                <p class="text-sm text-slate-500">
+                    Inicia sesión para continuar con tu plan y seguir tu progreso.
+                </p>
+
+                <form action="{{ url_for('login') }}" method="post" class="space-y-4 bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                    <div class="space-y-1">
+                        <label class="label">Email</label>
+                        <input type="email" name="login_email" required class="input">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="label">Contraseña</label>
+                        <input type="password" name="login_password" required class="input">
+                    </div>
+                    <button type="submit"
+                            class="inline-flex items-center justify-center w-full bg-slate-900 text-white px-4 py-2.5 rounded-full text-sm font-medium hover:bg-black transition">
+                        Iniciar sesión
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-slate-200 py-8 text-center text-xs text-slate-400">
+        Wellness Center · Diseño web minimalista para gimnasios modernos.
+    </footer>
+</main>
+
+</body>
+</html>
