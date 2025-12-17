@@ -25,7 +25,7 @@ wellness_center/
 
 ### Paso 1: Clonar el Repositorio
 ```bash
-git clone https://github.com/tu-usuario/wellness-center.git
+git clone https://github.com/Mavergara85/GYM_FRONT_PYTHON.git
 cd wellness-center
 ```
 
